@@ -9,7 +9,7 @@ const Home = () => {
   const fetchPosts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/posts', {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/posts`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPosts(res.data);
@@ -23,7 +23,7 @@ const Home = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'http://localhost:5000/api/posts',
+        `${import.meta.env.VITE_API_BASE_URL}/api/posts`,
         { content },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -39,8 +39,7 @@ const Home = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
-  //
- 
+
   return (
     <div className="max-w-2xl mx-auto mt-6 px-4">
       {/* Create Post Box */}
@@ -66,9 +65,7 @@ const Home = () => {
           <div key={post._id} className="bg-white p-4 rounded shadow">
             <div className="flex items-start gap-3 mb-2">
               <img
-                src={
-                   post.userId?.profileImage || '/default-avatar.png'
-                }
+                src={post.userId?.profileImage || '/default-avatar.png'}
                 alt="profile"
                 className="w-12 h-12 rounded-full object-cover border"
               />

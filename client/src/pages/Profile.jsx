@@ -11,7 +11,7 @@ function Profile() {
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/api/users/me", {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUser(res.data);
@@ -31,12 +31,15 @@ function Profile() {
       if (profileImage) {
         const formData = new FormData();
         formData.append("image", profileImage);
-        const res = await axios.post("http://localhost:5000/api/upload", formData);
+        const res = await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/upload`,
+          formData
+        );
         imageUrl = res.data.imageUrl;
       }
 
       await axios.put(
-        "http://localhost:5000/api/users/update",
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/update`,
         { bio, gender, profileImage: imageUrl },
         { headers: { Authorization: `Bearer ${token}` } }
       );
